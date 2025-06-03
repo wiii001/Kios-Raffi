@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Toko RAffi - Daftar Harga Sayuran</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('bg.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+      color: #f0f0f0;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.75);
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #e5e5ec; /* kuning kehijauan */
+      margin-bottom: 10px;
+    }
+
+    h2, h3 {
+      color: #ebebeb;
+    }
+
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    input[type="text"], input[type="number"] {
+      background-color: #2e2e2e;
+      color: #ffffff;
+      width: 200px;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #66bb6a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #2b2b2b;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #030303;
+    }
+
+    th {
+      background-color: #000000;
+    }
+
+    tr:hover {
+      background-color: #0c0606;
+    }
+
+    #search {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>Kios Raffi</h1>
+    <h2>Daftar Harga Sayuran</h2>
+
+    <input type="text" id="search" placeholder="Cari sayuran..." onkeyup="searchItem()">
+
+    <table id="vegTable">
+      <thead>
+        <tr>
+          <th>Nama Sayur</th>
+          <th>Harga (Rp)</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="vegList">
+        <tr>
+          <td>Bayam</td>
+          <td><input type="number" value="3000" onchange="updatePrice(this)"></td>
+          <td><button onclick="deleteRow(this)">Hapus</button></td>
+        </tr>
+        <tr>
+          <td>Wortel</td>
+          <td><input type="number" value="5000" onchange="updatePrice(this)"></td>
+          <td><button onclick="deleteRow(this)">Hapus</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Tambah Sayuran Baru</h3>
+    <input type="text" id="newName" placeholder="Nama Sayur">
+    <input type="number" id="newPrice" placeholder="Harga (Rp)">
+    <button onclick="addItem()">Tambah</button>
+  </div>
+  <p1> BY : Alwii </p1>
+
+  <script>
+    function addItem() {
+      const name = document.getElementById('newName').value.trim();
+      const price = document.getElementById('newPrice').value;
+      if (name && price) {
+        const table = document.getElementById('vegList');
+        const row = table.insertRow();
+        row.innerHTML = `
+          <td>${name}</td>
+          <td><input type="number" value="${price}" onchange="updatePrice(this)"></td>
+          <td><button onclick="deleteRow(this)">Hapus</button></td>
+        `;
+        document.getElementById('newName').value = '';
+        document.getElementById('newPrice').value = '';
+      } else {
+        alert("Mohon isi nama dan harga sayur.");
+      }
+    }
+
+    function deleteRow(button) {
+      const row = button.parentElement.parentElement;
+      row.remove();
+    }
+
+    function updatePrice(input) {
+      console.log("Harga diperbarui:", input.value);
+    }
+
+    function searchItem() {
+      const keyword = document.getElementById('search').value.toLowerCase();
+      const rows = document.querySelectorAll("#vegList tr");
+      rows.forEach(row => {
+        const name = row.cells[0].innerText.toLowerCase();
+        row.style.display = name.includes(keyword) ? "" : "none";
+      });
+    }
+  </script>
+</body>
+</html>
